@@ -1,1 +1,3 @@
-export const createSiteFilmsTemplate = () => '<section class="films"></section>';
+export const createSiteFilmsTemplate = () => (
+  '<section class="films"></section>'
+);

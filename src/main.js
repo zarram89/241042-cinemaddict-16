@@ -11,7 +11,7 @@ import { createSiteMostCommentedFilmsTemplate } from './view/site-most-commented
 //import { createPopupTemplate } from './view/site-popup-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 
-const renderBeforeEnd = (container, template) => renderTemplate(container, template, RenderPosition.BEFOREEND);
+const renderBeforeEnd = (container, template) => renderTemplate(container, template, RenderPosition.BEFORE_END);
 
 const renderFilmItems = (container, count) => {
   Array(count).fill(0).forEach(() => renderBeforeEnd(container, createSiteFilmCardTemplate()));
@@ -25,12 +25,12 @@ const renderAllFilms = (container) => {
 
 const renderTopRated = (container) => {
   renderBeforeEnd(container, createSiteTopRatedFilmsTemplate());
-  renderFilmItems(container.querySelector('.films-list--top-rated').querySelector('.films-list__container'), 2);
+  renderFilmItems(container.querySelector('.films-list--top-rated .films-list__container'), 2);
 };
 
 const renderMostCommented = (container) => {
   renderBeforeEnd(container, createSiteMostCommentedFilmsTemplate());
-  renderFilmItems(container.querySelector('.films-list--most-commented').querySelector('.films-list__container'), 2);
+  renderFilmItems(container.querySelector('.films-list--most-commented .films-list__container'), 2);
 };
 
 const renderFilms = (container) => {
