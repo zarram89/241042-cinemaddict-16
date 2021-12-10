@@ -5,6 +5,10 @@ export const RenderPosition = {
   AFTER_END: 'afterend',
 };
 
-export const renderTemplate = (container, template, place) => {
+export const renderTemplate = function (container, template, place) {
   container.insertAdjacentHTML(place, template);
 };
+
+// export const renderTemplate = (container, template, place) => {
+//   container.insertAdjacentHTML(place, template);
+// };
