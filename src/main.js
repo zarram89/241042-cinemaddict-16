@@ -8,51 +8,48 @@ import { createShowMoreTemplate } from './view/site-show-more-view.js';
 import { createSiteTopRatedFilmsTemplate } from './view/site-top-rated-view.js';
 import { createSiteMostCommentedFilmsTemplate } from './view/site-most-commented-view.js';
 import { createSiteStatisticsTemplate } from './view/site-statistics-view.js';
-//import { createPopupTemplate } from './view/site-popup-view.js';
+import { createPopupTemplate } from './view/site-popup-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
-
-const FILMS_COUNT = 5;
-const SHORT_FILMS_COUNT = 2;
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
-renderTemplate(siteHeaderElement, createProfileTemplate, RenderPosition.BEFORE_END);
-renderTemplate(siteMainElement, createSiteMenuTemplate, RenderPosition.BEFORE_END);
-renderTemplate(siteMainElement, createSiteSortTemplate, RenderPosition.BEFORE_END);
-renderTemplate(siteMainElement, createSiteFilmsTemplate, RenderPosition.BEFORE_END);
+renderTemplate(siteHeaderElement, createProfileTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(siteMainElement, createSiteMenuTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(siteMainElement, createSiteSortTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(siteMainElement, createSiteFilmsTemplate(), RenderPosition.BEFORE_END);
 
 const siteFilmsBoardElement = document.querySelector('.films');
 
-renderTemplate(siteFilmsBoardElement, createSiteAllFilmsTemplate, RenderPosition.BEFORE_END);
+renderTemplate(siteFilmsBoardElement, createSiteAllFilmsTemplate(), RenderPosition.BEFORE_END);
 
 const filmsListContainer = siteFilmsBoardElement.querySelector('.films-list__container');
 
-for (let i = 0; i < FILMS_COUNT; i++) {
+for (let i = 0; i < 5; i++) {
   renderTemplate(filmsListContainer, createSiteFilmCardTemplate(), RenderPosition.BEFORE_END);
 }
 
-renderTemplate(siteFilmsBoardElement, createShowMoreTemplate, RenderPosition.BEFORE_END);
-renderTemplate(siteFilmsBoardElement, createSiteTopRatedFilmsTemplate, RenderPosition.BEFORE_END);
+renderTemplate(siteFilmsBoardElement, createShowMoreTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(siteFilmsBoardElement, createSiteTopRatedFilmsTemplate(), RenderPosition.BEFORE_END);
 
 const topRatedFilmsListContainer = siteFilmsBoardElement.querySelector('.films-list--top-rated .films-list__container');
 
-for (let i = 0; i < SHORT_FILMS_COUNT; i++) {
+for (let i = 0; i < 2; i++) {
   renderTemplate(topRatedFilmsListContainer, createSiteFilmCardTemplate(), RenderPosition.BEFORE_END);
 }
 
-renderTemplate(siteFilmsBoardElement, createSiteMostCommentedFilmsTemplate, RenderPosition.BEFORE_END);
+renderTemplate(siteFilmsBoardElement, createSiteMostCommentedFilmsTemplate(), RenderPosition.BEFORE_END);
 
 const mostCommentedFilmsListContainer = siteFilmsBoardElement.querySelector('.films-list--most-commented .films-list__container');
 
-for (let i = 0; i < SHORT_FILMS_COUNT; i++) {
+for (let i = 0; i < 2; i++) {
   renderTemplate(mostCommentedFilmsListContainer, createSiteFilmCardTemplate(), RenderPosition.BEFORE_END);
 }
 
 const siteFooterElement = document.querySelector('.footer');
 
-renderTemplate(siteFooterElement, createSiteStatisticsTemplate, RenderPosition.BEFORE_END);
-//renderTemplate(siteFooterElement, createPopupTemplate, RenderPosition.AFTER_END);
+renderTemplate(siteFooterElement, createSiteStatisticsTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(siteFooterElement, createPopupTemplate, RenderPosition.AFTER_END);
 
 // const filmsListContainer = siteMainElement.querySelector('.films-list__container');
 
