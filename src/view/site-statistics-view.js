@@ -1,5 +1,5 @@
-export const createSiteStatisticsTemplate = () => (
+export const createSiteStatisticsTemplate = (statistics) => (
   `<section class="footer__statistics">
-    <p>130 291 movies inside</p>
+    <p>${statistics.allFilms} movies inside</p>
   </section>`
 );
