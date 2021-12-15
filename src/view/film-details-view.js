@@ -2,6 +2,7 @@ import { createCommentDetailsTemplate } from './comment-details-view';
 
 export const createFilmDetailsTemplate = (film) => {
   const {
+    age,
     title,
     titleOriginal,
     rating,
@@ -34,13 +35,13 @@ export const createFilmDetailsTemplate = (film) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
 
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${age}+</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">>${title}</h3>
+              <h3 class="film-details__title">${title}</h3>
               <p class="film-details__title-original">Original: ${titleOriginal}</p>
             </div>
 
@@ -52,7 +53,7 @@ export const createFilmDetailsTemplate = (film) => {
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">>${director}</td>
+              <td class="film-details__cell">${director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
