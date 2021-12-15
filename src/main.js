@@ -37,7 +37,6 @@ renderTemplate(mainElement, createFilmsTemplate(), RenderPosition.BEFOREEND);
 const filmsElement = mainElement.querySelector('.films');
 renderTemplate(filmsElement, createFilmListTemplate(), RenderPosition.BEFOREEND);
 
-
 const filmsListElement = filmsElement.querySelector('.films-list');
 renderTemplate(filmsListElement, createFilmsListContainerTemplate(), RenderPosition.BEFOREEND);
 
