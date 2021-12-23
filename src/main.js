@@ -12,7 +12,7 @@ import { createFooterStatisticTemplate } from './view/statistic-view';
 import { createFilmDetailsTemplate } from './view/film-details-view';
 import { renderTemplate, RenderPosition } from './render';
 import { generateFilm } from './mock/film';
-import { generateFilters } from './mock/filter';
+import { generateFilmsFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
 
 const FILM_COUNT = 20;
@@ -20,7 +20,7 @@ const FILM_COUNT_PER_STEP = 5;
 const isShowPopup = false;
 
 const films = Array.from({ length: FILM_COUNT }, generateFilm);
-const filters = generateFilters(films);
+const filters = generateFilmsFilters(films);
 const profile = generateProfile();
 
 const bodyElement = document.querySelector('body');

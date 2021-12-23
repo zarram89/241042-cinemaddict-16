@@ -1,4 +1,3 @@
 export const createFilmsTemplate = () => (
-  `<section class="films">
-  </section>`
+  '<section class="films"></section>'
 );

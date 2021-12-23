@@ -9,3 +9,4 @@ export const createProfileTemplate = (profile) => {
   }
   return '';
 };
+

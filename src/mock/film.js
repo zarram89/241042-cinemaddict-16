@@ -303,4 +303,3 @@ export const generateFilm = () => {
     isFavorites: Boolean(getRandomInteger())
   };
 };
-
