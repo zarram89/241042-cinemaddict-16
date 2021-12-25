@@ -1,66 +1,78 @@
-import { createSiteRatingTemplate } from './view/site-rating-view.js';
-import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { createSiteSortTemplate } from './view/site-sort-view.js';
-import { createSiteFilmsTemplate } from './view/site-films-view.js';
-import { createShowMoreTemplate } from './view/site-show-more-view.js';
-import { createSiteAllFilmsTemplate } from './view/site-all-films-list-view.js';
-import { createSiteFilmCardTemplate } from './view/site-film-card-view.js';
-import { createSiteTopRatedFilmsTemplate } from './view/site-top-rated-view.js';
-import { createSiteStatisticsTemplate } from './view/site-statistics-view.js';
-import { createSiteMostCommentedFilmsTemplate } from './view/site-most-commented-view.js';
-//import { createPopupTemplate } from './view/site-popup-view.js';
-import { renderTemplate, RenderPosition } from './render.js';
+import { createProfileTemplate } from './view/profile-view';
+import { createNavigationTemplate } from './view/navigation-view';
+import { createFilterTemplate } from './view/filter-view';
+import { createStatsTemplate } from './view/stats-view';
+import { createSortFilmsTemplate } from './view/sort-films-view';
+import { createFilmsTemplate } from './view/films-view';
+import { createFilmListTemplate } from './view/films-list-view';
+import { createFilmsListContainerTemplate } from './view/films-list-container-view';
+import { createFilmCardTemplate } from './view/film-card-view';
+import { createButtonShowMoreTemplate } from './view/button-show-more-view';
+import { createFooterStatisticTemplate } from './view/statistic-view';
+import { createFilmDetailsTemplate } from './view/film-details-view';
+import { renderTemplate, RenderPosition } from './render';
+import { generateFilm } from './mock/film';
+import { generateFilmsFilters } from './mock/filter';
+import { generateProfile } from './mock/profile';
 
-const renderBeforeEnd = (container, template) => renderTemplate(container, template, RenderPosition.BEFORE_END);
+const FILM_COUNT = 20;
+const FILM_COUNT_PER_STEP = 5;
+const isShowPopup = false;
 
-const renderFilmItems = (container, count) => {
-  Array(count).fill(0).forEach(() => renderBeforeEnd(container, createSiteFilmCardTemplate()));
-};
+const films = Array.from({ length: FILM_COUNT }, generateFilm);
+const filters = generateFilmsFilters(films);
+const profile = generateProfile();
 
-const renderAllFilms = (container) => {
-  renderBeforeEnd(container, createSiteAllFilmsTemplate());
-  renderFilmItems(container.querySelector('.films-list__container'), 5);
-  renderBeforeEnd(container, createShowMoreTemplate());
-};
+const bodyElement = document.querySelector('body');
+const headerElement = bodyElement.querySelector('.header');
+const mainElement = bodyElement.querySelector('.main');
+const footerElement = bodyElement.querySelector('.footer');
+const footerStatisticElement = footerElement.querySelector('.footer__statistics');
 
-const renderTopRated = (container) => {
-  renderBeforeEnd(container, createSiteTopRatedFilmsTemplate());
-  renderFilmItems(container.querySelector('.films-list--top-rated .films-list__container'), 2);
-};
+renderTemplate(headerElement, createProfileTemplate(profile), RenderPosition.BEFORE_END);
 
-const renderMostCommented = (container) => {
-  renderBeforeEnd(container, createSiteMostCommentedFilmsTemplate());
-  renderFilmItems(container.querySelector('.films-list--most-commented .films-list__container'), 2);
-};
+renderTemplate(mainElement, createNavigationTemplate(), RenderPosition.BEFORE_END);
+const navigationElement = mainElement.querySelector('.main-navigation');
+renderTemplate(navigationElement, createFilterTemplate(filters), RenderPosition.BEFORE_END);
+renderTemplate(navigationElement, createStatsTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(mainElement, createSortFilmsTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(mainElement, createFilmsTemplate(), RenderPosition.BEFORE_END);
 
-const renderFilms = (container) => {
-  renderAllFilms(container);
-  renderTopRated(container);
-  renderMostCommented(container);
-};
+const filmsElement = mainElement.querySelector('.films');
+renderTemplate(filmsElement, createFilmListTemplate(), RenderPosition.BEFORE_END);
+const filmsListElement = filmsElement.querySelector('.films-list');
+renderTemplate(filmsListElement, createFilmsListContainerTemplate(), RenderPosition.BEFORE_END);
 
-const renderSite = (container) => {
-  renderBeforeEnd(container, createSiteMenuTemplate());
-  renderBeforeEnd(container, createSiteSortTemplate());
-  renderBeforeEnd(container, createSiteFilmsTemplate());
-  renderFilms(container.querySelector('.films'));
-};
+const filmsListContainerElement = filmsListElement.querySelector('.films-list__container');
+for (const film of films.slice(0, FILM_COUNT_PER_STEP)) {
+  renderTemplate(filmsListContainerElement, createFilmCardTemplate(film), RenderPosition.BEFORE_END);
+}
 
-renderBeforeEnd(
-  document.querySelector('header'),
-  createSiteRatingTemplate()
-);
+if (films.length > FILM_COUNT_PER_STEP) {
+  let renderFilmCount = FILM_COUNT_PER_STEP;
 
-renderSite(document.querySelector('.main'));
+  renderTemplate(filmsListElement, createButtonShowMoreTemplate(), RenderPosition.BEFORE_END);
+  const showMoreElement = filmsListElement.querySelector('.films-list__show-more');
 
-renderBeforeEnd(
-  document.querySelector('footer'),
-  createSiteStatisticsTemplate()
-);
+  showMoreElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    films
+      .slice(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP)
+      .forEach((film) => {
+        renderTemplate(filmsListContainerElement, createFilmCardTemplate(film), RenderPosition.BEFORE_END);
+      });
 
-/*
-renderBeforeEnd(
-  document.querySelector('body'),
-  createPopupTemplate()
-);
-*/
+    renderFilmCount += FILM_COUNT_PER_STEP;
+
+    if (renderFilmCount >= films.length) {
+      showMoreElement.remove();
+    }
+  });
+}
+
+renderTemplate(footerStatisticElement, createFooterStatisticTemplate(films.length), RenderPosition.BEFORE_END);
+
+if (isShowPopup) {
+  bodyElement.classList.add('hide-overflow');
+  renderTemplate(footerElement, createFilmDetailsTemplate(films[1]), RenderPosition.AFTER_END);
+}
