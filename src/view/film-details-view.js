@@ -1,6 +1,7 @@
+import { createElement } from '../render';
 import { createCommentDetailsTemplate } from './comment-details-view';
 
-export const createFilmDetailsTemplate = (film) => {
+const createFilmDetailsTemplate = (film) => {
   const {
     age,
     title,
@@ -11,6 +12,7 @@ export const createFilmDetailsTemplate = (film) => {
     actors,
     releaseDate,
     duration,
+    poster,
     country,
     genres,
     description,
@@ -33,7 +35,7 @@ export const createFilmDetailsTemplate = (film) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+          <img class="film-details__poster-img" src="${poster}" alt="">
 
           <p class="film-details__age">${age}+</p>
         </div>
@@ -134,3 +136,28 @@ export const createFilmDetailsTemplate = (film) => {
   </form>
 </section>`;
 };
+
+export class FilmDetails {
+  #element = null;
+  #film = null;
+
+  constructor(film) {
+    this.#film = film;
+  }
+
+  get template() {
+    return createFilmDetailsTemplate(this.#film);
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

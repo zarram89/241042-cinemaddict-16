@@ -1,4 +1,6 @@
-export const createFilmCardTemplate = (film) => {
+import { createElement } from '../render';
+
+const createFilmCardTemplate = (film) => {
   const { title, rating, year, duration, genres, poster, description, comments } = film;
 
   const reduceDescription = (text) => text.length > 140
@@ -25,3 +27,28 @@ export const createFilmCardTemplate = (film) => {
     </div>
   </article>`;
 };
+
+export class FilmCard {
+  #element = null;
+  #film = null;
+
+  constructor(film) {
+    this.#film = film;
+  }
+
+  get template() {
+    return createFilmCardTemplate(this.#film);
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

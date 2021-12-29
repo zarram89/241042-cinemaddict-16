@@ -1,3 +1,5 @@
+import { createElement } from '../render';
+
 export const createCommentDetailsTemplate = (comment) => {
   const { emoji, text, author, day } = comment;
 
@@ -15,3 +17,30 @@ export const createCommentDetailsTemplate = (comment) => {
   </div>
 </li>`;
 };
+
+export class CommentDetails {
+  #element = null;
+  #comment = null;
+
+  constructor(comment) {
+    this.#comment = comment;
+  }
+
+  get template() {
+    return this.#comment
+      ? createCommentDetailsTemplate(this.#comment)
+      : this.#comment;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

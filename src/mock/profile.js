@@ -4,7 +4,7 @@ const getRandomRating = () => {
   const ratings = [
     'Movie Buff',
     'Movie Critic',
-    'Movie Pro'
+    'Movie Pro',
   ];
 
   const randomIndex = getRandomInteger(0, ratings.length - 1);
