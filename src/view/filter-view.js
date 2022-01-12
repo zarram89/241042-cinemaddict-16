@@ -1,70 +1,32 @@
-import { createElement } from '../render';
-import { FILTER_NAME } from '../const';
+import { createElement } from '../render.js';
 
-const BLANK_FILTERS = [
-  {
-    name: FILTER_NAME.WATCH_LIST,
-    count: 0
-  },
-  {
-    name: FILTER_NAME.HISTORY,
-    count: 0
-  },
-  {
-    name: FILTER_NAME.FAVORITES,
-    count: 0
-  }
-];
+const createFilterItemTemplate = (filter) => {
+  const { name, count } = filter;
+  const filterName = name[0].toUpperCase() + name.slice(1).toLowerCase();
 
-const filterItemName = {
-  [FILTER_NAME.WATCH_LIST]: {
-    hrefName: '#watchlist',
-    displayName: 'Watchlist'
-  },
-  [FILTER_NAME.HISTORY]: {
-    hrefName: '#history',
-    displayName: 'History'
-  },
-  [FILTER_NAME.FAVORITES]: {
-    hrefName: '#favorites',
-    displayName: 'Favorites'
-  }
+  return `<a href="#${filterName}" class="main-navigation__item">${filterName} <span class="main-navigation__item-count">${count}</span></a>`;
 };
 
-const createFilterItemTemplate = ({ name, count }) => {
-  const { hrefName, displayName } = filterItemName[name];
+const createFilterTemplate = (filterItems) => {
+  const filterItemsTemplate = filterItems
+    .map((filter, index) => (index !== 0) ? createFilterItemTemplate(filter) : '')
+    .join('\n');
 
-  return `<a href=${hrefName}
-    class="main-navigation__item">${displayName}
-    <span class="main-navigation__item-count">${count}</span>
-  </a>`;
+  return `<nav class="main-navigation">
+  <div class="main-navigation__items">
+    <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
+    ${filterItemsTemplate}
+  </div>
+  <a href="#stats" class="main-navigation__additional">Stats</a>
+</nav>`;
 };
 
-const createAllMoviesTemplate = () =>
-  '<a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>';
-
-export const createFilterTemplate = (filters = BLANK_FILTERS) => {
-
-  const filterItemsTemplate = filters
-    .map((filter) => createFilterItemTemplate(filter))
-    .join('');
-
-  return `<div class="main-navigation__items">
-      ${createAllMoviesTemplate()}
-      ${filterItemsTemplate}
-    </div>`;
-};
-
-export class Filter {
+export default class FilterView {
   #element = null;
   #filters = null;
 
   constructor(filters) {
     this.#filters = filters;
-  }
-
-  get template() {
-    return createFilterTemplate(this.#filters);
   }
 
   get element() {
@@ -73,6 +35,10 @@ export class Filter {
     }
 
     return this.#element;
+  }
+
+  get template() {
+    return createFilterTemplate(this.#filters);
   }
 
   removeElement() {

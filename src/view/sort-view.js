@@ -1,6 +1,6 @@
-import { createElement } from '../render';
+import { createElement } from '../render.js';
 
-const createSortFilmsTemplate = () => (
+const createSortTemplate = () => (
   `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
     <li><a href="#" class="sort__button">Sort by date</a></li>
@@ -8,12 +8,8 @@ const createSortFilmsTemplate = () => (
   </ul>`
 );
 
-export class SortFilms {
+export default class SortView {
   #element = null;
-
-  get template() {
-    return createSortFilmsTemplate();
-  }
 
   get element() {
     if (!this.#element) {
@@ -21,6 +17,10 @@ export class SortFilms {
     }
 
     return this.#element;
+  }
+
+  get template() {
+    return createSortTemplate();
   }
 
   removeElement() {
