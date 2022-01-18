@@ -3,7 +3,7 @@ import FilterView from './view/filter-view.js';
 import SortView from './view/sort-view.js';
 import FilmsView from './view/films-view.js';
 import FilmsListView from './view/films-list-view.js';
-import FilmsListTitleView from './view/films-list-title-view.js';
+import EmptyFilmsListTitleView from './view/empty-films-list-title-view.js';
 import FilmsListContainerView from './view/films-list-container-view';
 import FilmCardView from './view/film-card-view.js';
 import FilmPopupView from './view/film-popup-view.js';
@@ -70,8 +70,6 @@ const renderFilmsList = (container, listFilms, listFilters) => {
   const filmsListComponent = new FilmsListView();
   const activeFilter = listFilters.find((filter) => filter.isChecked);
 
-  render(filmsListComponent.element, new FilmsListTitleView(activeFilter).element, RenderPosition.AFTER_BEGIN);
-
   if (activeFilter.count > 0) {
     const filmsListContainerComponent = new FilmsListContainerView();
 
@@ -103,6 +101,8 @@ const renderFilmsList = (container, listFilms, listFilters) => {
         }
       });
     }
+  } else {
+    render(filmsListComponent.element, new EmptyFilmsListTitleView(activeFilter).element, RenderPosition.AFTER_BEGIN);
   }
 
   render(container, filmsListComponent.element, RenderPosition.BEFORE_END);

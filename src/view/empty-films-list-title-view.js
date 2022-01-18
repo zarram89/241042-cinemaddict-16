@@ -7,7 +7,7 @@ const filterNameToEmptyDescriptionMap = {
   favorites: 'There are no favorite movies now',
 };
 
-const createFilmsListTitleTemplate = (activeFilter) => {
+const createEmptyFilmsListTitleTemplate = (activeFilter) => {
   const { name, count } = activeFilter;
   const titleText = (count !== 0) ? 'All movies. Upcoming' : filterNameToEmptyDescriptionMap[name];
   const hiddenClassName = (count !== 0) ? 'visually-hidden' : '';
@@ -15,7 +15,7 @@ const createFilmsListTitleTemplate = (activeFilter) => {
   return `<h2 class="films-list__title ${hiddenClassName}">${titleText}</h2>`;
 };
 
-export default class FilmsListTitleView {
+export default class EmptyFilmsListTitleView {
   #element = null;
   #activeFilter = null;
 
@@ -32,7 +32,7 @@ export default class FilmsListTitleView {
   }
 
   get template() {
-    return createFilmsListTitleTemplate(this.#activeFilter);
+    return createEmptyFilmsListTitleTemplate(this.#activeFilter);
   }
 
   removeElement() {
